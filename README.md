@@ -1,4 +1,6 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Bachelor AI Search Engine
+
+This is an AI-powered search engine built using [Next.js](https://nextjs.org), designed as part of a Bachelor's thesis project. The goal of this project is to explore and implement generative AI techniques to enhance information retrieval and test if the UX is better or worse in AI search engines compared to traditional ones.
 
 ## Getting Started
 
@@ -6,31 +8,35 @@ First, run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the application in action.
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Learn More
+## Package Scripts
 
-To learn more about Next.js, take a look at the following resources:
+The project includes the following scripts for development and production:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `dev`: Runs the development server with Turbopack for faster builds.
+    ```bash
+    npm run dev
+    ```
+- `build`: Creates an optimized production build.
+    ```bash
+    npm run build
+    ```
+- `start`: Starts the production server.
+    ```bash
+    npm run start
+    ```
+- `lint`: Runs ESLint to check for code quality and style issues.
+    ```bash
+    npm run lint
+    ```
+- `format`: Formats the codebase using Prettier.
+    ```bash
+    npm run format
+    ```

@@ -1,5 +1,4 @@
 import AppSidebar from "./app-sidebar";
-import { ModeToggle } from "@/components/mode-toggle";
 
 export default function RootLayout({
     children,
@@ -10,8 +9,7 @@ export default function RootLayout({
         <>
             <AppSidebar />
             <main className="flex grow">
-                <div className="flex h-full w-full flex-1 flex-col gap-2 border p-4 md:rounded-l-2xl md:p-10">
-                    <ModeToggle />
+                <div className="bg-background flex h-full w-full flex-1 flex-col gap-2 border p-4 md:rounded-l-2xl md:p-10">
                     {children}
                 </div>
             </main>

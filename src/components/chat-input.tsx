@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Textarea from "react-textarea-autosize";
 import { ArrowBigUp } from "lucide-react";
+import { toast } from "sonner";
 
 function ChatInput() {
     const [message, setMessage] = useState("");
@@ -26,7 +27,9 @@ function ChatInput() {
 
         if (!message.trim() || isComposing || enterDisabled) return;
 
-        console.log("Submitted message:", message);
+        toast.success("Submitted message", {
+            description: message,
+        });
         setMessage("");
     };
 

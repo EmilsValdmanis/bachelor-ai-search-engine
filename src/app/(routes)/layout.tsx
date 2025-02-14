@@ -9,7 +9,7 @@ export default function RootLayout({
         <>
             <AppSidebar />
             <main className="flex grow">
-                <div className="bg-background flex h-full w-full flex-1 flex-col gap-2 border p-4 md:rounded-l-2xl md:p-10">
+                <div className="bg-background flex h-full max-h-[100vh] w-full flex-1 flex-col overflow-auto border md:rounded-l-2xl">
                     {children}
                 </div>
             </main>

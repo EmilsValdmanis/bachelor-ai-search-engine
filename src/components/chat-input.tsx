@@ -63,6 +63,7 @@ function ChatInput({
                 messages.length &&
                     "bg-background supports-[backdrop-filter]:bg-background/60 fixed bottom-0 backdrop-blur",
             )}
+            // TODO: fix this so it works on all screen sizes. Maybe dont use fixed.
         >
             <form onSubmit={handleSubmit}>
                 <div className="bg-muted/60 border-foreground/20 relative flex w-full flex-col gap-2 rounded-3xl border px-2 py-1">

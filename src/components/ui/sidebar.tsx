@@ -131,27 +131,36 @@ export const MobileSidebar = ({
                 </div>
                 <AnimatePresence>
                     {open && (
-                        <motion.div
-                            initial={{ x: "-100%", opacity: 0 }}
-                            animate={{ x: 0, opacity: 1 }}
-                            exit={{ x: "-100%", opacity: 0 }}
-                            transition={{
-                                duration: 0.3,
-                                ease: "easeInOut",
-                            }}
-                            className={cn(
-                                "bg-muted fixed inset-0 z-[100] flex h-full w-full flex-col justify-between p-10",
-                                className,
-                            )}
-                        >
-                            <div
-                                className="text-primary absolute top-10 right-10 z-50"
+                        <>
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                className="bg-background/60 fixed inset-0 z-50"
                                 onClick={() => setOpen(!open)}
+                            />
+                            <motion.div
+                                initial={{ x: "-100%", opacity: 0 }}
+                                animate={{ x: 0, opacity: 1 }}
+                                exit={{ x: "-100%", opacity: 0 }}
+                                transition={{
+                                    duration: 0.3,
+                                    ease: "easeInOut",
+                                }}
+                                className={cn(
+                                    "bg-background supports-[backdrop-filter]:bg-background/60 fixed inset-0 z-[100] flex h-full w-4/5 flex-col justify-between border p-10 backdrop-blur",
+                                    className,
+                                )}
                             >
-                                <X />
-                            </div>
-                            {children}
-                        </motion.div>
+                                <div
+                                    className="text-primary absolute top-10 right-10 z-50"
+                                    onClick={() => setOpen(!open)}
+                                >
+                                    <X />
+                                </div>
+                                {children}
+                            </motion.div>
+                        </>
                     )}
                 </AnimatePresence>
             </div>

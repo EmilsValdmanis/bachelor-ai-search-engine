@@ -8,6 +8,7 @@ import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import { containsLaTeX, processLatex } from "@/lib/utils/latex";
+import CodeBlock from "./ui/code-block";
 
 import "katex/dist/katex.min.css";
 
@@ -35,7 +36,21 @@ function ChatMessage({ message }: { message: Message }) {
                         [rehypeKatex],
                     ]}
                     className="prose-sm prose-neutral"
-                    //TODO: add code block component to render <code> tags more nicely. Maybe tables also
+                    components={{
+                        code({ className, children, ...props }) {
+                            return (
+                                <CodeBlock
+                                    language={
+                                        className?.match(
+                                            /language-(\w+)/,
+                                        )?.[1] || ""
+                                    }
+                                    value={String(children).replace(/\n$/, "")}
+                                    {...props}
+                                />
+                            );
+                        },
+                    }}
                 >
                     {messageContent}
                 </Markdown>

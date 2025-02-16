@@ -59,7 +59,7 @@ function ChatInput({
     return (
         <div
             className={cn(
-                "w-[50rem] max-w-full px-4",
+                "w-[52rem] max-w-full px-4",
                 messages.length &&
                     "bg-background supports-[backdrop-filter]:bg-background/60 fixed bottom-0 backdrop-blur",
             )}

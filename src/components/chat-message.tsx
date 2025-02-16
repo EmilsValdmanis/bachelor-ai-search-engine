@@ -25,7 +25,7 @@ function ChatMessage({ message }: { message: Message }) {
             <LogoIcon className="mt-4" />
             <div
                 className={cn(
-                    "border-border w-fit max-w-[40rem] rounded-3xl border p-4",
+                    "border-border w-fit max-w-full rounded-3xl border p-4",
                 )}
             >
                 <Markdown
@@ -35,7 +35,7 @@ function ChatMessage({ message }: { message: Message }) {
                         [rehypeKatex],
                     ]}
                     className="prose-sm prose-neutral"
-                    //TODO: add code block component to render <code> tags more nicely
+                    //TODO: add code block component to render <code> tags more nicely. Maybe tables also
                 >
                     {messageContent}
                 </Markdown>

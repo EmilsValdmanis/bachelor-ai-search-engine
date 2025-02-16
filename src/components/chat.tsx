@@ -36,7 +36,7 @@ function Chat({ id, query }: { id: string; query?: string }) {
     return (
         <div
             className={cn(
-                "stretch mx-auto flex h-screen w-full max-w-[50rem] flex-col gap-10",
+                "stretch mx-auto flex w-full max-w-[50rem] grow flex-col gap-10",
                 !messages.length && "justify-center",
             )}
         >

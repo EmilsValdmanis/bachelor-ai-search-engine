@@ -30,7 +30,7 @@ export default function RootLayout({
         <html lang="en" suppressHydrationWarning>
             <body
                 className={cn(
-                    "bg-muted/10 flex h-[100vh] flex-col font-sans antialiased md:flex-row",
+                    "bg-muted/10 flex h-[100dvh] flex-col font-sans antialiased md:flex-row",
                     fontSans.variable,
                 )}
             >

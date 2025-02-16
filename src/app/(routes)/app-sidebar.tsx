@@ -1,10 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import { Sidebar, SidebarBody, SidebarLink } from "@/components/ui/sidebar";
 import Link from "next/link";
-import { AppWindow } from "lucide-react";
+import { AppWindow, CircleUser } from "lucide-react";
 import { motion } from "framer-motion";
+import LogoIcon from "../../../public/logo-icon";
 
 function AppSidebar() {
     const [open, setOpen] = useState(false);
@@ -36,7 +37,7 @@ function AppSidebar() {
                             label: "Profile",
                             href: "#",
                             icon: (
-                                <div className="bg-primary size-5 flex-shrink-0 rounded-full" />
+                                <CircleUser className="stroke-primary size-5 flex-shrink-0 rounded-full" />
                             ),
                         }}
                     />
@@ -51,16 +52,16 @@ export default AppSidebar;
 export const Logo = () => {
     return (
         <Link
-            href="#"
+            href="/"
             className="relative z-20 flex items-center space-x-2 py-1 text-sm font-normal text-black"
         >
-            <div className="bg-primary size-5 flex-shrink-0 rounded-full" />
+            <LogoIcon className="stroke-primary size-5 flex-shrink-0 rounded-full" />
             <motion.span
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 className="text-primary font-medium whitespace-pre"
             >
-                Logo
+                Searchy
             </motion.span>
         </Link>
     );

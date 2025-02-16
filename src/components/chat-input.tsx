@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import Textarea from "react-textarea-autosize";
 import { Message } from "ai";
 import { cn } from "@/lib/utils";

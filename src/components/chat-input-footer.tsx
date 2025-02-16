@@ -1,4 +1,3 @@
-import React from "react";
 import { ArrowBigUp } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 

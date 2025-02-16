@@ -1,29 +1,25 @@
-import { streamText } from "ai";
 import { NextRequest, NextResponse } from "next/server";
-import { registry } from "@/lib/utils/registry";
-// import { fetchTavilyExtract } from "@/lib/tools/extract";
-// import { fetchTavilySearch } from "@/lib/tools/search";
-
-// const result = await fetchTavilyExtract("https://nextjs.org/docs");
-
-// const result = await fetchTavilySearch(
-//     "Who is the current president of the USA?",
-// );
+import { isProviderEnabled } from "@/lib/utils/registry";
+import { createStreamResponse } from "@/lib/stream/create-stream-response";
 
 export async function POST(request: NextRequest) {
     try {
-        const { id, messages } = await request.json();
+        const { id: chatId, messages } = await request.json();
 
-        console.log(id);
-        console.log(messages);
+        const model = "openai:gpt-4o-mini"; // hard coded for now
+        const provider = model.split(":")[0];
 
-        const result = streamText({
-            model: registry.languageModel("openai:gpt-4o-mini"),
-            system: "You are a helpful assistant.",
-            prompt: messages[0].content,
+        if (!isProviderEnabled(provider))
+            return NextResponse.json({
+                status: 404,
+                message: `Current provider: '${provider}', is not enabled.`,
+            });
+
+        return createStreamResponse({
+            chatId,
+            model,
+            messages,
         });
-
-        return result.toDataStreamResponse();
     } catch (error: unknown) {
         console.error("API route error:", error);
         return NextResponse.json(

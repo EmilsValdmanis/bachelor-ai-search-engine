@@ -1,11 +1,12 @@
 "use client";
 
 import { Prism } from "react-syntax-highlighter";
-import { oneDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import { Button } from "./button";
 import { Download, Check, Copy } from "lucide-react";
 import { useCopyToClipboard } from "@/lib/hooks/copy-to-clipboard";
 import { generateId } from "ai";
+import { memo, useMemo } from "react";
+import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 interface CodeBlockProps {
     value: string;
@@ -114,7 +115,7 @@ const programmingLanguages: languageMap = {
     zig: ".zig",
 };
 
-function CodeBlock({ value: code, language }: CodeBlockProps) {
+const CodeBlock = ({ value: code, language }: CodeBlockProps) => {
     const { isCopied, copyToClipboard } = useCopyToClipboard({});
 
     const downloadCode = () => {
@@ -135,9 +136,38 @@ function CodeBlock({ value: code, language }: CodeBlockProps) {
         URL.revokeObjectURL(url);
     };
 
+    const memoizedPrism = useMemo(
+        () => (
+            <Prism
+                PreTag="div"
+                language={language}
+                style={vscDarkPlus}
+                customStyle={{
+                    margin: 0,
+                    width: "100%",
+                    background: "transparent",
+                }}
+                showLineNumbers
+                lineNumberStyle={{
+                    userSelect: "none",
+                }}
+                codeTagProps={{
+                    style: {
+                        fontSize: "0.875rem",
+                    },
+                }}
+            >
+                {code}
+            </Prism>
+        ),
+        [code, language],
+    );
+
+    // TODO: dont render inline/single line codeblocks as entire codeblocks, looks bad
+
     return (
-        <div className="bg-primary/20 w-full overflow-hidden rounded-xl border">
-            <div className="flex w-full items-center justify-between px-3 py-0.5">
+        <div className="bg-primary/10 w-full overflow-hidden rounded-xl border">
+            <div className="bg-primary/20 flex w-full items-center justify-between px-3 py-0.5">
                 <span className="text-[0.875rem] capitalize">
                     {language.toLowerCase()}
                 </span>
@@ -166,31 +196,9 @@ function CodeBlock({ value: code, language }: CodeBlockProps) {
                     </Button>
                 </div>
             </div>
-            <Prism
-                PreTag="div"
-                language={language}
-                style={oneDark}
-                customStyle={{
-                    margin: 0,
-                    width: "100%",
-                    background: "var(--color-muted)",
-                    padding: "0.5rem 1.5rem 0.5rem 0rem",
-                    borderRadius: 0,
-                }}
-                showLineNumbers
-                lineNumberStyle={{
-                    userSelect: "none",
-                }}
-                codeTagProps={{
-                    style: {
-                        fontSize: "0.875rem",
-                    },
-                }}
-            >
-                {code}
-            </Prism>
+            {memoizedPrism}
         </div>
     );
-}
+};
 
-export default CodeBlock;
+export default memo(CodeBlock);

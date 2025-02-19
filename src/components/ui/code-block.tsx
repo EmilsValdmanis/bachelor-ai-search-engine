@@ -167,6 +167,7 @@ function CodeBlock({ value: code, language }: CodeBlockProps) {
                 </div>
             </div>
             <Prism
+                PreTag="div"
                 language={language}
                 style={oneDark}
                 customStyle={{

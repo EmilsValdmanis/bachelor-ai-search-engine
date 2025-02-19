@@ -43,44 +43,20 @@ function ChatMessage({
                     ]}
                     className="prose-sm prose-neutral"
                     components={{
-                        code({ inline, className, children, ...props }) {
-                            if (children.length) {
-                                if (children[0] == "▍") {
-                                    return (
-                                        <span className="mt-1 animate-pulse cursor-default">
-                                            ▍
-                                        </span>
-                                    );
-                                }
-
-                                children[0] = (children[0] as string).replace(
-                                    "`▍`",
-                                    "▍",
-                                );
-                            }
-
-                            const match = /language-(\w+)/.exec(
-                                className || "",
-                            );
-
-                            if (inline) {
-                                return (
-                                    <code className={className} {...props}>
-                                        {children}
-                                    </code>
-                                );
-                            }
-
+                        code({ className, children, ...props }) {
                             return (
                                 <CodeBlock
-                                    key={Math.random()}
-                                    language={(match && match[1]) || ""}
+                                    language={
+                                        className?.match(
+                                            /language-(\w+)/,
+                                        )?.[1] || ""
+                                    }
                                     value={String(children).replace(/\n$/, "")}
                                     {...props}
                                 />
                             );
                         },
-                        //TODO: Make a component for links?
+                        // Make a component for links?
                     }}
                 >
                     {messageContent}

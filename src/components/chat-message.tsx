@@ -12,7 +12,13 @@ import CodeBlock from "./ui/code-block";
 
 import "katex/dist/katex.min.css";
 
-function ChatMessage({ message }: { message: Message }) {
+function ChatMessage({
+    message,
+    isLoading,
+}: {
+    message: Message;
+    isLoading: boolean;
+}) {
     if (message.role === "user") return <UserMessage message={message} />;
 
     const containsLatex = containsLaTeX(message.content);
@@ -23,10 +29,10 @@ function ChatMessage({ message }: { message: Message }) {
 
     return (
         <div className="flex gap-2">
-            <LogoIcon className="mt-4" />
+            <LogoIcon className={cn("mt-4", isLoading && "animate-spin")} />
             <div
                 className={cn(
-                    "border-border w-fit max-w-full rounded-3xl border p-4",
+                    "border-border w-full max-w-full rounded-3xl border p-4",
                 )}
             >
                 <Markdown
@@ -37,19 +43,44 @@ function ChatMessage({ message }: { message: Message }) {
                     ]}
                     className="prose-sm prose-neutral"
                     components={{
-                        code({ className, children, ...props }) {
+                        code({ inline, className, children, ...props }) {
+                            if (children.length) {
+                                if (children[0] == "▍") {
+                                    return (
+                                        <span className="mt-1 animate-pulse cursor-default">
+                                            ▍
+                                        </span>
+                                    );
+                                }
+
+                                children[0] = (children[0] as string).replace(
+                                    "`▍`",
+                                    "▍",
+                                );
+                            }
+
+                            const match = /language-(\w+)/.exec(
+                                className || "",
+                            );
+
+                            if (inline) {
+                                return (
+                                    <code className={className} {...props}>
+                                        {children}
+                                    </code>
+                                );
+                            }
+
                             return (
                                 <CodeBlock
-                                    language={
-                                        className?.match(
-                                            /language-(\w+)/,
-                                        )?.[1] || ""
-                                    }
+                                    key={Math.random()}
+                                    language={(match && match[1]) || ""}
                                     value={String(children).replace(/\n$/, "")}
                                     {...props}
                                 />
                             );
                         },
+                        //TODO: Make a component for links?
                     }}
                 >
                     {messageContent}

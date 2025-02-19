@@ -6,9 +6,7 @@ export const createStreamResponse = (config: StreamConfig) => {
     return createDataStreamResponse({
         execute: async (dataStream: DataStreamWriter) => {
             try {
-                const { chatId, model, messages } = config;
-
-                console.log(chatId);
+                const { model, messages } = config;
 
                 const result = streamText({
                     model: registry.languageModel(model),

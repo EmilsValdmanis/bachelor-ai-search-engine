@@ -5,6 +5,7 @@ import { oneDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import { Button } from "./button";
 import { Download, Check, Copy } from "lucide-react";
 import { useCopyToClipboard } from "@/lib/hooks/copy-to-clipboard";
+import { generateId } from "ai";
 
 interface CodeBlockProps {
     value: string;
@@ -122,7 +123,7 @@ function CodeBlock({ value: code, language }: CodeBlockProps) {
         }
 
         const extension = programmingLanguages[language] || ".file";
-        const fileName = `code-${language}${extension}`; // TODO: think of o nice way to differentiate the filename for multiple downloads
+        const fileName = `code-${generateId()}-${language}${extension}`;
         const blob = new Blob([code], { type: "text/plain" });
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");

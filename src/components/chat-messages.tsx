@@ -10,22 +10,17 @@ interface ChatMessagesProps {
 
 function ChatMessages({
     messages,
-    data,
+    // data,
     isLoading,
-    chatId,
+    // chatId,
 }: ChatMessagesProps) {
-    console.log("Chat id:", chatId);
-    console.log("Data:", data);
-    console.log("Messages:", messages);
-    console.log(isLoading);
-
     if (!messages.length) return null;
 
     return (
-        <div className="relative mx-auto flex w-full flex-col gap-4 px-4 pt-8 pb-[7.25rem]">
+        <div className="relative mx-auto flex w-full flex-col gap-4 px-8 pt-8 pb-[7.25rem]">
             {messages.map((message) => (
                 <div key={message.id}>
-                    <ChatMessage message={message} />
+                    <ChatMessage message={message} isLoading={isLoading} />
                 </div>
             ))}
         </div>

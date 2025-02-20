@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import ChatInputFooter from "./chat-input-footer";
 import { SparklesCore } from "@/components/ui/sparkles";
 import { FlipWords } from "./ui/flip-words";
+import { useTheme } from "next-themes";
 
 interface ChatInputProps {
     handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
@@ -35,6 +36,7 @@ function ChatInput({
     const [isComposing, setIsComposing] = useState<boolean>(false);
     const [enterDisabled, setEnterDisabled] = useState<boolean>(false);
     const [height, setHeight] = useState<number>(0);
+    const { resolvedTheme } = useTheme();
 
     const handleCompositionStart = () => {
         setIsComposing(true);
@@ -110,7 +112,9 @@ function ChatInput({
                         maxSize={1}
                         particleDensity={1200}
                         className="absolute -bottom-24 h-32 w-full"
-                        particleColor="#FFFFFF"
+                        particleColor={
+                            resolvedTheme === "light" ? "#000000" : "#FFFFFF"
+                        }
                     />
                     <div className="bg-background absolute h-34 w-full [mask-image:radial-gradient(450px_150px_at_top,transparent_20%,white)]" />
                 </div>

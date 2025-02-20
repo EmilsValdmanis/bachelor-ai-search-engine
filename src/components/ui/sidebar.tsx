@@ -16,6 +16,8 @@ interface SidebarContextProps {
     open: boolean;
     setOpen: React.Dispatch<React.SetStateAction<boolean>>;
     animate: boolean;
+    alwaysOpen: boolean;
+    setAlwaysOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const SidebarContext = createContext<SidebarContextProps | undefined>(
@@ -34,20 +36,38 @@ export const SidebarProvider = ({
     children,
     open: openProp,
     setOpen: setOpenProp,
+    setAlwaysOpen: setAlwaysOpenProp,
     animate = true,
 }: {
     children: React.ReactNode;
     open?: boolean;
     setOpen?: React.Dispatch<React.SetStateAction<boolean>>;
+    alwaysOpen?: boolean;
+    setAlwaysOpen?: React.Dispatch<React.SetStateAction<boolean>>;
     animate?: boolean;
 }) => {
     const [openState, setOpenState] = useState(false);
+    const [alwaysOpen, setAlwaysOpen] = useState(false);
 
-    const open = openProp !== undefined ? openProp : openState;
+    const open = alwaysOpen
+        ? true
+        : openProp !== undefined
+          ? openProp
+          : openState;
     const setOpen = setOpenProp !== undefined ? setOpenProp : setOpenState;
+    const setAlwaysOpenFunc =
+        setAlwaysOpenProp !== undefined ? setAlwaysOpenProp : setAlwaysOpen;
 
     return (
-        <SidebarContext.Provider value={{ open, setOpen, animate: animate }}>
+        <SidebarContext.Provider
+            value={{
+                open,
+                setOpen,
+                alwaysOpen,
+                setAlwaysOpen: setAlwaysOpenFunc,
+                animate: animate,
+            }}
+        >
             {children}
         </SidebarContext.Provider>
     );
@@ -90,7 +110,7 @@ export const DesktopSidebar = ({
         <>
             <motion.div
                 className={cn(
-                    "hidden h-full w-[250px] flex-shrink-0 px-4 py-4 md:flex md:flex-col",
+                    "hidden h-full w-[250px] flex-shrink-0 md:flex md:flex-col",
                     className,
                 )}
                 animate={{

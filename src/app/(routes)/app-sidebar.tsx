@@ -2,15 +2,14 @@
 
 import { useState } from "react";
 import { Sidebar, SidebarBody, SidebarLink } from "@/components/ui/sidebar";
-import Link from "next/link";
 import { AppWindow } from "lucide-react";
-import { motion } from "motion/react";
-import { SignedIn, UserButton } from "@clerk/nextjs";
+import ProfileMenu from "@/components/profile-menu";
+import SidebarCollapse from "@/components/sidebar-collapse";
 
 import LogoIcon from "../../../public/logo-icon";
 
 function AppSidebar() {
-    const [open, setOpen] = useState(false);
+    const [sidebarOpen, setSidebarOpen] = useState(false);
 
     const links = [
         {
@@ -21,44 +20,31 @@ function AppSidebar() {
     ];
 
     return (
-        <SignedIn>
-            <Sidebar open={open} setOpen={setOpen} animate={true}>
-                <SidebarBody className="justify-between gap-10">
-                    <div className="flex flex-1 flex-col overflow-x-hidden overflow-y-auto">
-                        <>
-                            <Logo />
-                        </>
-                        <div className="mt-8 flex flex-col gap-2">
-                            {links.map((link, idx) => (
-                                <SidebarLink key={idx} link={link} />
-                            ))}
-                        </div>
+        <Sidebar open={sidebarOpen} setOpen={setSidebarOpen} animate={true}>
+            <SidebarCollapse />
+            <SidebarBody className="justify-between gap-10 overflow-hidden">
+                <div className="flex flex-1 flex-col overflow-y-auto p-4">
+                    <SidebarLink
+                        link={{
+                            label: "Searchy",
+                            href: "/",
+                            icon: (
+                                <LogoIcon className="stroke-primary size-5 flex-shrink-0 rounded-full" />
+                            ),
+                        }}
+                    />
+                    <div className="mt-8 flex flex-col gap-2">
+                        {links.map((link, idx) => (
+                            <SidebarLink key={idx} link={link} />
+                        ))}
                     </div>
-                    <div>
-                        <UserButton />
-                    </div>
-                </SidebarBody>
-            </Sidebar>
-        </SignedIn>
+                </div>
+                <div className="p-4">
+                    <ProfileMenu />
+                </div>
+            </SidebarBody>
+        </Sidebar>
     );
 }
 
 export default AppSidebar;
-
-export const Logo = () => {
-    return (
-        <Link
-            href="/"
-            className="relative z-20 flex items-center space-x-2 py-1 text-sm font-normal text-black"
-        >
-            <LogoIcon className="stroke-primary size-5 flex-shrink-0 rounded-full" />
-            <motion.span
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="text-primary font-medium whitespace-pre"
-            >
-                Searchy
-            </motion.span>
-        </Link>
-    );
-};

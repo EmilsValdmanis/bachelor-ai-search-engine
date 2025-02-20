@@ -1,5 +1,5 @@
 import AppSidebar from "./app-sidebar";
-import { SignInButton, SignUpButton, SignedOut } from "@clerk/nextjs";
+import { SignInButton, SignUpButton, SignedOut, SignedIn } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 
 export default function RootLayout({
@@ -9,7 +9,9 @@ export default function RootLayout({
 }>) {
     return (
         <>
-            <AppSidebar />
+            <SignedIn>
+                <AppSidebar />
+            </SignedIn>
             <main className="flex grow">
                 <div className="bg-background flex h-full max-h-[calc(100dvh-48px)] w-full flex-1 flex-col overflow-auto md:max-h-[100vh] md:rounded-l-2xl md:border">
                     <SignedOut>

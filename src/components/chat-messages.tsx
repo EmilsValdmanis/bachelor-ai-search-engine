@@ -1,4 +1,5 @@
 import { Message, JSONValue } from "ai";
+import { Fragment } from "react";
 import ChatMessage from "./chat-message";
 
 interface ChatMessagesProps {
@@ -19,9 +20,13 @@ function ChatMessages({
     return (
         <div className="relative mx-auto flex w-full flex-col gap-4 px-8 pt-8 pb-[7.25rem]">
             {messages.map((message) => (
-                <div key={message.id}>
-                    <ChatMessage message={message} isLoading={isLoading} />
-                </div>
+                <Fragment key={message.id}>
+                    <ChatMessage
+                        message={message}
+                        isLoading={isLoading}
+                        isLast={message.id === messages[messages.length - 1].id}
+                    />
+                </Fragment>
             ))}
         </div>
     );

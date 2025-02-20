@@ -15,9 +15,11 @@ import "katex/dist/katex.min.css";
 function ChatMessage({
     message,
     isLoading,
+    isLast,
 }: {
     message: Message;
     isLoading: boolean;
+    isLast: boolean;
 }) {
     if (message.role === "user") return <UserMessage message={message} />;
 
@@ -29,39 +31,39 @@ function ChatMessage({
 
     return (
         <div className="flex gap-2">
-            <LogoIcon className={cn("mt-4", isLoading && "animate-spin")} />
-            <div
-                className={cn(
-                    "border-border w-full max-w-full rounded-3xl border p-4",
-                )}
-            >
-                <Markdown
-                    remarkPlugins={[remarkGfm, remarkMath]}
-                    rehypePlugins={[
-                        [rehypeExternalLinks, { target: "_blank" }],
-                        [rehypeKatex],
-                    ]}
-                    className="prose-sm prose-neutral"
-                    components={{
-                        code({ className, children, ...props }) {
-                            return (
-                                <CodeBlock
-                                    language={
-                                        className?.match(
-                                            /language-(\w+)/,
-                                        )?.[1] || ""
-                                    }
-                                    value={String(children).replace(/\n$/, "")}
-                                    {...props}
-                                />
-                            );
-                        },
-                        // Make a component for links?
-                    }}
-                >
-                    {messageContent}
-                </Markdown>
+            <div className="mt-4 size-6">
+                <LogoIcon
+                    className={cn(
+                        "size-6",
+                        isLoading && isLast && "animate-spin",
+                    )}
+                />
             </div>
+            <Markdown
+                remarkPlugins={[remarkGfm, remarkMath]}
+                rehypePlugins={[
+                    [rehypeExternalLinks, { target: "_blank" }],
+                    [rehypeKatex],
+                ]}
+                className="prose-sm prose-neutral border-border rounded-3xl border p-4"
+                components={{
+                    code({ className, children, ...props }) {
+                        return (
+                            <CodeBlock
+                                language={
+                                    className?.match(/language-(\w+)/)?.[1] ||
+                                    ""
+                                }
+                                value={String(children).replace(/\n$/, "")}
+                                {...props}
+                            />
+                        );
+                    },
+                    // Make a component for links?
+                }}
+            >
+                {messageContent}
+            </Markdown>
         </div>
     );
 }

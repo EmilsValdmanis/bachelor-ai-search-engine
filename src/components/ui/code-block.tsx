@@ -2,10 +2,9 @@
 
 import { Prism } from "react-syntax-highlighter";
 import { Button } from "./button";
-import { Download, Check, Copy } from "lucide-react";
+import { Download, Check, Copy, Code } from "lucide-react";
 import { useCopyToClipboard } from "@/lib/hooks/copy-to-clipboard";
 import { generateId } from "ai";
-import { memo, useMemo } from "react";
 import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 interface CodeBlockProps {
@@ -117,6 +116,7 @@ const programmingLanguages: languageMap = {
 
 const CodeBlock = ({ value: code, language }: CodeBlockProps) => {
     const { isCopied, copyToClipboard } = useCopyToClipboard({});
+    const isInline = !code.includes("\n");
 
     const downloadCode = () => {
         if (typeof window === "undefined") {
@@ -136,46 +136,26 @@ const CodeBlock = ({ value: code, language }: CodeBlockProps) => {
         URL.revokeObjectURL(url);
     };
 
-    const memoizedPrism = useMemo(
-        () => (
-            <Prism
-                PreTag="div"
-                language={language}
-                style={vscDarkPlus}
-                customStyle={{
-                    margin: 0,
-                    width: "100%",
-                    background: "transparent",
-                }}
-                showLineNumbers
-                lineNumberStyle={{
-                    userSelect: "none",
-                }}
-                codeTagProps={{
-                    style: {
-                        fontSize: "0.875rem",
-                    },
-                }}
-            >
+    if (isInline)
+        return (
+            <code className="bg-muted relative rounded px-[0.3rem] py-[0.2rem]">
                 {code}
-            </Prism>
-        ),
-        [code, language],
-    );
+            </code>
+        );
 
-    // TODO: dont render inline/single line codeblocks as entire codeblocks, looks bad
+    // TODO: apply syntax highlighting less often so performance is better (could stream with larger and more infrequent updates maybe)
 
     return (
-        <div className="bg-primary/10 w-full overflow-hidden rounded-xl border">
-            <div className="bg-primary/20 flex w-full items-center justify-between px-3 py-0.5">
-                <span className="text-[0.875rem] capitalize">
+        <div className="bg-primary/10 overflow-hidden rounded-xl border">
+            <div className="bg-primary/20 flex items-center justify-between px-3 py-0.5">
+                <div className="flex items-center gap-1.5 text-[0.875rem] capitalize">
+                    <Code className="size-4" />
                     {language.toLowerCase()}
-                </span>
+                </div>
                 <div className="flex items-center gap-1">
                     <Button
                         variant="ghost"
                         size="icon"
-                        className="text-xs focus-visible:ring-1 focus-visible:ring-offset-0"
                         onClick={() => copyToClipboard(code)}
                     >
                         {isCopied ? (
@@ -185,20 +165,37 @@ const CodeBlock = ({ value: code, language }: CodeBlockProps) => {
                         )}
                         <span className="sr-only">Copy code</span>
                     </Button>
-                    <Button
-                        variant="ghost"
-                        className="focus-visible:ring-1"
-                        size="icon"
-                        onClick={downloadCode}
-                    >
+                    <Button variant="ghost" size="icon" onClick={downloadCode}>
                         <Download className="size-4" />
                         <span className="sr-only">Download</span>
                     </Button>
                 </div>
             </div>
-            {memoizedPrism}
+            <div className="grid">
+                <Prism
+                    PreTag="div"
+                    language={language}
+                    style={vscDarkPlus}
+                    customStyle={{
+                        margin: 0,
+                        width: "100%",
+                        background: "transparent",
+                    }}
+                    showLineNumbers
+                    lineNumberStyle={{
+                        userSelect: "none",
+                    }}
+                    codeTagProps={{
+                        style: {
+                            fontSize: "0.875rem",
+                        },
+                    }}
+                >
+                    {code}
+                </Prism>
+            </div>
         </div>
     );
 };
 
-export default memo(CodeBlock);
+export default CodeBlock;

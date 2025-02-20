@@ -12,7 +12,7 @@ function SidebarCollapse() {
         <motion.div
             initial={{ left: "16.625rem" }}
             animate={{ left: open ? "16.625rem" : "4.75rem" }}
-            className="absolute top-4"
+            className="absolute top-4 hidden md:block"
         >
             <Button
                 variant="ghost"

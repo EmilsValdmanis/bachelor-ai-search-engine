@@ -1,16 +1,31 @@
 import { Message } from "ai";
 import { CircleUser } from "lucide-react";
+import { useUser } from "@clerk/nextjs";
+import Image from "next/image";
+import { Skeleton } from "./ui/skeleton";
 
 function UserMessage({ message }: { message: Message }) {
+    const { user, isLoaded } = useUser();
     return (
-        <div className="prose-sm prose-neutral flex items-start justify-end gap-2">
-            <p className="bg-muted w-fit max-w-[40rem] rounded-3xl border p-4">
+        <div className="flex items-start justify-end gap-2">
+            <p className="bg-muted prose-sm prose-neutral w-fit max-w-[40rem] rounded-3xl border p-4">
                 {message.content}
             </p>
-            <div className="mt-4 size-6">
-                <CircleUser className="size-6" />
-            </div>
-            {/* TODO: once auth is setup the user picture can be used instead with this as a fallback */}
+            {user?.imageUrl ? (
+                isLoaded ? (
+                    <Image
+                        alt="Profile Icon"
+                        src={user?.imageUrl}
+                        width={48}
+                        height={48}
+                        className="mt-4 size-6"
+                    />
+                ) : (
+                    <Skeleton className="size-6 rounded-full" />
+                )
+            ) : (
+                <CircleUser className="mt-4 size-6" />
+            )}
         </div>
     );
 }

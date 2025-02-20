@@ -1,7 +1,7 @@
 "use client";
 import { cn } from "@/lib/utils";
 import Link, { LinkProps } from "next/link";
-import { useState, createContext, useContext } from "react";
+import { useState, createContext, useContext, useEffect } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { Menu, X } from "lucide-react";
 import { Button } from "./button";
@@ -48,13 +48,34 @@ export const SidebarProvider = ({
 }) => {
     const [openState, setOpenState] = useState(false);
     const [alwaysOpen, setAlwaysOpen] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
 
-    const open = alwaysOpen
-        ? true
-        : openProp !== undefined
-          ? openProp
-          : openState;
-    const setOpen = setOpenProp !== undefined ? setOpenProp : setOpenState;
+    useEffect(() => {
+        const checkMobile = () => {
+            setIsMobile(window.innerWidth < 768);
+        };
+
+        checkMobile();
+        window.addEventListener("resize", checkMobile);
+        return () => window.removeEventListener("resize", checkMobile);
+    }, []);
+
+    const open = isMobile
+        ? openState
+        : alwaysOpen
+          ? true
+          : openProp !== undefined
+            ? openProp
+            : openState;
+
+    const setOpen = (value: boolean | ((prev: boolean) => boolean)) => {
+        if (isMobile) {
+            setOpenState(value instanceof Function ? value(openState) : value);
+        } else if (setOpenProp) {
+            setOpenProp(value);
+        }
+    };
+
     const setAlwaysOpenFunc =
         setAlwaysOpenProp !== undefined ? setAlwaysOpenProp : setAlwaysOpen;
 

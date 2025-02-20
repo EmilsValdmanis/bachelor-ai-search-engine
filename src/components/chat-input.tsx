@@ -5,6 +5,8 @@ import Textarea from "react-textarea-autosize";
 import { Message } from "ai";
 import { cn } from "@/lib/utils";
 import ChatInputFooter from "./chat-input-footer";
+import { SparklesCore } from "@/components/ui/sparkles";
+import { FlipWords } from "./ui/flip-words";
 
 interface ChatInputProps {
     handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
@@ -56,6 +58,8 @@ function ChatInput({
         }
     };
 
+    const words = ["faster", "easier", "better"];
+
     return (
         <div
             className={cn(
@@ -64,7 +68,16 @@ function ChatInput({
                     "bg-background supports-[backdrop-filter]:bg-background/60 fixed bottom-0 backdrop-blur",
             )}
         >
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className="relative">
+                <h1
+                    className={cn(
+                        "text-foreground relative z-20 mx-auto max-w-7xl pb-10 text-center text-4xl font-semibold md:text-5xl",
+                        messages.length && "hidden",
+                    )}
+                >
+                    Search <FlipWords words={words} className="w-32 md:w-42" />
+                    with AI
+                </h1>
                 <div className="bg-muted/60 border-foreground/20 relative flex w-full flex-col gap-2 rounded-3xl border px-2 py-1">
                     <Textarea
                         name="input"
@@ -85,6 +98,21 @@ function ChatInput({
                         onHeightChange={(height) => setHeight(height)}
                         style={{ height }}
                     />
+                </div>
+                <div
+                    className={cn(
+                        !input && !messages.length ? "block" : "hidden",
+                    )}
+                >
+                    <SparklesCore
+                        background="transparent"
+                        minSize={0.4}
+                        maxSize={1}
+                        particleDensity={1200}
+                        className="absolute -bottom-24 h-32 w-full"
+                        particleColor="#FFFFFF"
+                    />
+                    <div className="bg-background absolute h-34 w-full [mask-image:radial-gradient(450px_150px_at_top,transparent_20%,white)]" />
                 </div>
                 <ChatInputFooter input={input} />
             </form>

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Sidebar, SidebarBody, SidebarLink } from "@/components/ui/sidebar";
 import Link from "next/link";
 import { AppWindow, CircleUser } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import LogoIcon from "../../../public/logo-icon";
 
 function AppSidebar() {

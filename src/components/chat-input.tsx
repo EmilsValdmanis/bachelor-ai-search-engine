@@ -5,6 +5,9 @@ import Textarea from "react-textarea-autosize";
 import { Message } from "ai";
 import { cn } from "@/lib/utils";
 import ChatInputFooter from "./chat-input-footer";
+import { SparklesCore } from "./ui/sparkles";
+import { useTheme } from "next-themes";
+import { motion, AnimatePresence } from "motion/react";
 
 interface ChatInputProps {
     handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
@@ -33,6 +36,7 @@ function ChatInput({
     const [isComposing, setIsComposing] = useState<boolean>(false);
     const [enterDisabled, setEnterDisabled] = useState<boolean>(false);
     const [height, setHeight] = useState<number>(0);
+    const { resolvedTheme } = useTheme();
 
     const handleCompositionStart = () => {
         setIsComposing(true);
@@ -94,6 +98,55 @@ function ChatInput({
                         style={{ height }}
                     />
                 </div>
+                <AnimatePresence>
+                    {!input && !messages.length && (
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                        >
+                            {/* Gradients */}
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                className="absolute inset-x-1/2 bottom-8.5 h-[2px] w-3/4 -translate-x-1/2 transform bg-gradient-to-r from-transparent via-indigo-500 to-transparent blur-sm"
+                            />
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                className="absolute inset-x-1/2 bottom-8.5 h-px w-3/4 -translate-x-1/2 transform bg-gradient-to-r from-transparent via-indigo-500 to-transparent"
+                            />
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                className="absolute inset-x-1/2 bottom-8.5 h-[3px] w-1/4 -translate-x-1/2 transform bg-gradient-to-r from-transparent via-sky-500 to-transparent blur-sm"
+                            />
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                className="absolute inset-x-1/2 bottom-8.5 h-px w-1/4 -translate-x-1/2 transform bg-gradient-to-r from-transparent via-sky-500 to-transparent"
+                            />
+
+                            <SparklesCore
+                                background="transparent"
+                                minSize={0.4}
+                                maxSize={1}
+                                particleDensity={1200}
+                                className="absolute -bottom-25 h-32 w-full"
+                                particleColor={
+                                    resolvedTheme === "light"
+                                        ? "#000000"
+                                        : "#FFFFFF"
+                                }
+                            />
+                            <div className="bg-background absolute h-34 w-full [mask-image:radial-gradient(450px_150px_at_top,transparent_20%,white)]" />
+                        </motion.div>
+                    )}
+                </AnimatePresence>
                 <ChatInputFooter input={input} />
             </form>
         </div>

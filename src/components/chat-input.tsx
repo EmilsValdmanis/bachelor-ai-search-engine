@@ -5,9 +5,6 @@ import Textarea from "react-textarea-autosize";
 import { Message } from "ai";
 import { cn } from "@/lib/utils";
 import ChatInputFooter from "./chat-input-footer";
-import { SparklesCore } from "@/components/ui/sparkles";
-import { FlipWords } from "./ui/flip-words";
-import { useTheme } from "next-themes";
 
 interface ChatInputProps {
     handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
@@ -36,7 +33,6 @@ function ChatInput({
     const [isComposing, setIsComposing] = useState<boolean>(false);
     const [enterDisabled, setEnterDisabled] = useState<boolean>(false);
     const [height, setHeight] = useState<number>(0);
-    const { resolvedTheme } = useTheme();
 
     const handleCompositionStart = () => {
         setIsComposing(true);
@@ -60,8 +56,6 @@ function ChatInput({
         }
     };
 
-    const words = ["faster", "easier", "better"];
-
     return (
         <div
             className={cn(
@@ -73,12 +67,11 @@ function ChatInput({
             <form onSubmit={handleSubmit} className="relative">
                 <h1
                     className={cn(
-                        "text-foreground relative z-20 mx-auto max-w-7xl pb-10 text-center text-4xl font-semibold md:text-5xl",
+                        "text-foreground/80 relative z-20 mx-auto max-w-7xl pb-10 text-center text-4xl font-semibold md:text-5xl",
                         messages.length && "hidden",
                     )}
                 >
-                    Search <FlipWords words={words} className="w-32 md:w-42" />
-                    with AI
+                    Search easier with AI
                 </h1>
                 <div className="bg-muted/60 border-foreground/20 relative flex w-full flex-col gap-2 rounded-3xl border px-2 py-1">
                     <Textarea
@@ -100,23 +93,6 @@ function ChatInput({
                         onHeightChange={(height) => setHeight(height)}
                         style={{ height }}
                     />
-                </div>
-                <div
-                    className={cn(
-                        !input && !messages.length ? "block" : "hidden",
-                    )}
-                >
-                    <SparklesCore
-                        background="transparent"
-                        minSize={0.4}
-                        maxSize={1}
-                        particleDensity={1200}
-                        className="absolute -bottom-24 h-32 w-full"
-                        particleColor={
-                            resolvedTheme === "light" ? "#000000" : "#FFFFFF"
-                        }
-                    />
-                    <div className="bg-background absolute h-34 w-full [mask-image:radial-gradient(450px_150px_at_top,transparent_20%,white)]" />
                 </div>
                 <ChatInputFooter input={input} />
             </form>

@@ -3,6 +3,7 @@ import { Inter as FontSans } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import { cn } from "@/lib/utils";
 import { Toaster } from "@/components/ui/sonner";
+import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
 
 const fontSans = FontSans({
@@ -27,23 +28,25 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en" suppressHydrationWarning>
-            <body
-                className={cn(
-                    "bg-muted/10 flex h-[100dvh] flex-col font-sans antialiased md:flex-row",
-                    fontSans.variable,
-                )}
-            >
-                <ThemeProvider
-                    attribute="class"
-                    defaultTheme="system"
-                    enableSystem
-                    disableTransitionOnChange
+        <ClerkProvider>
+            <html lang="en" suppressHydrationWarning={true}>
+                <body
+                    className={cn(
+                        "bg-muted/10 flex h-[100dvh] flex-col font-sans antialiased md:flex-row",
+                        fontSans.variable,
+                    )}
                 >
-                    {children}
-                    <Toaster />
-                </ThemeProvider>
-            </body>
-        </html>
+                    <ThemeProvider
+                        attribute="class"
+                        defaultTheme="system"
+                        enableSystem
+                        disableTransitionOnChange
+                    >
+                        {children}
+                        <Toaster />
+                    </ThemeProvider>
+                </body>
+            </html>
+        </ClerkProvider>
     );
 }

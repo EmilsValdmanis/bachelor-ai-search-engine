@@ -5,8 +5,10 @@ import ChatMessages from "@/components/chat-messages";
 import { useChat } from "@ai-sdk/react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import { useAuth } from "@clerk/nextjs";
 
 function Chat({ id, query }: { id: string; query?: string }) {
+    const { isSignedIn } = useAuth();
     const {
         handleSubmit,
         handleInputChange,
@@ -29,6 +31,11 @@ function Chat({ id, query }: { id: string; query?: string }) {
 
     const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+
+        if (!isSignedIn) {
+            return toast.info("Must be signed in first!");
+        }
+
         setData(undefined);
         handleSubmit(e);
     };

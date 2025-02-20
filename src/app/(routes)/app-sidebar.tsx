@@ -3,8 +3,10 @@
 import { useState } from "react";
 import { Sidebar, SidebarBody, SidebarLink } from "@/components/ui/sidebar";
 import Link from "next/link";
-import { AppWindow, CircleUser } from "lucide-react";
+import { AppWindow } from "lucide-react";
 import { motion } from "motion/react";
+import { SignedIn, UserButton } from "@clerk/nextjs";
+
 import LogoIcon from "../../../public/logo-icon";
 
 function AppSidebar() {
@@ -19,31 +21,25 @@ function AppSidebar() {
     ];
 
     return (
-        <Sidebar open={open} setOpen={setOpen} animate={true}>
-            <SidebarBody className="justify-between gap-10">
-                <div className="flex flex-1 flex-col overflow-x-hidden overflow-y-auto">
-                    <>
-                        <Logo />
-                    </>
-                    <div className="mt-8 flex flex-col gap-2">
-                        {links.map((link, idx) => (
-                            <SidebarLink key={idx} link={link} />
-                        ))}
+        <SignedIn>
+            <Sidebar open={open} setOpen={setOpen} animate={true}>
+                <SidebarBody className="justify-between gap-10">
+                    <div className="flex flex-1 flex-col overflow-x-hidden overflow-y-auto">
+                        <>
+                            <Logo />
+                        </>
+                        <div className="mt-8 flex flex-col gap-2">
+                            {links.map((link, idx) => (
+                                <SidebarLink key={idx} link={link} />
+                            ))}
+                        </div>
                     </div>
-                </div>
-                <div>
-                    <SidebarLink
-                        link={{
-                            label: "Profile",
-                            href: "#",
-                            icon: (
-                                <CircleUser className="stroke-primary size-5 flex-shrink-0 rounded-full" />
-                            ),
-                        }}
-                    />
-                </div>
-            </SidebarBody>
-        </Sidebar>
+                    <div>
+                        <UserButton />
+                    </div>
+                </SidebarBody>
+            </Sidebar>
+        </SignedIn>
     );
 }
 

@@ -4,9 +4,29 @@ import { Button } from "./ui/button";
 import { ArrowLeftToLine, ArrowRightToLine } from "lucide-react";
 import { useSidebar } from "./ui/sidebar";
 import { motion } from "motion/react";
+import { setCookie, getCookie } from "@/lib/utils/cookies";
+import { useEffect, useState } from "react";
+import { Skeleton } from "./ui/skeleton";
 
 function SidebarCollapse() {
     const { open, alwaysOpen, setAlwaysOpen } = useSidebar();
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        const currentMode = getCookie("sidebar-always-open");
+        if (currentMode !== null) {
+            setAlwaysOpen(currentMode === "true");
+        }
+        setIsLoading(false);
+    });
+
+    const handleAlwaysOpenChange = () => {
+        setAlwaysOpen((prev) => {
+            const newAlwaysOpen = !prev;
+            setCookie("sidebar-always-open", newAlwaysOpen.toString());
+            return newAlwaysOpen;
+        });
+    };
 
     return (
         <motion.div
@@ -17,9 +37,15 @@ function SidebarCollapse() {
             <Button
                 variant="ghost"
                 size="icon"
-                onClick={() => setAlwaysOpen((prev) => !prev)}
+                onClick={handleAlwaysOpenChange}
             >
-                {alwaysOpen ? <ArrowLeftToLine /> : <ArrowRightToLine />}
+                {isLoading ? (
+                    <Skeleton className="size-9" />
+                ) : alwaysOpen ? (
+                    <ArrowLeftToLine />
+                ) : (
+                    <ArrowRightToLine />
+                )}
             </Button>
         </motion.div>
     );

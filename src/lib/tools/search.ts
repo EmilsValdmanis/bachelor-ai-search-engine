@@ -1,4 +1,65 @@
 import { SearchResultImage, SearchResults } from "../types";
+import { tool } from "ai";
+import { z } from "zod";
+
+export const searchTool = tool({
+    description: "Searching the web for info.",
+    parameters: z.object({
+        query: z.string().describe("The query for searching"),
+        maxResults: z.number().describe("The max numbers of results to return"),
+        searchDepth: z
+            .string()
+            .describe("The depth of the search: basic | advanced"),
+        includeDomains: z
+            .array(z.string())
+            .describe(
+                "If you want to specifically include some domains in the results",
+            ),
+        excludeDomains: z
+            .array(z.string())
+            .describe(
+                "If you want to specifically exclude some domains from the results",
+            ),
+    }),
+    execute: async ({
+        query,
+        maxResults,
+        searchDepth,
+        includeDomains,
+        excludeDomains,
+    }) => {
+        const resolvedDepth = searchDepth === "advanced" ? "advanced" : "basic";
+
+        console.log("🔍 Executing search with parameters:");
+        console.log(`   📝 Query: ${query}`);
+        console.log(`   🔢 Max Results: ${maxResults}`);
+        console.log(`   📊 Search Depth: ${resolvedDepth}`);
+        console.log(
+            `   ✅ Include Domains: ${includeDomains.length > 0 ? includeDomains.join(", ") : "None"}`,
+        );
+        console.log(
+            `   ❌ Exclude Domains: ${excludeDomains.length > 0 ? excludeDomains.join(", ") : "None"}`,
+        );
+
+        try {
+            return await fetchTavilySearch(
+                query,
+                maxResults,
+                resolvedDepth,
+                includeDomains,
+                excludeDomains,
+            );
+        } catch (error) {
+            console.error("Erorr in search API tool:", error);
+            return {
+                results: [],
+                query,
+                images: [],
+                number_of_results: 0,
+            };
+        }
+    },
+});
 
 export async function fetchTavilySearch(
     query: string,

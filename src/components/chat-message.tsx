@@ -29,6 +29,8 @@ function ChatMessage({
         ? processLatex(message.content)
         : message.content;
 
+    // TODO: make a loading visual for when the chat is searching the web.
+
     return (
         <div className="flex gap-2">
             <div className="mt-4 size-6">
@@ -59,7 +61,7 @@ function ChatMessage({
                             />
                         );
                     },
-                    // Make a component for links?
+                    // TODO: Make a component for links
                 }}
             >
                 {messageContent}

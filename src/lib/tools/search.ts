@@ -30,17 +30,6 @@ export const searchTool = tool({
     }) => {
         const resolvedDepth = searchDepth === "advanced" ? "advanced" : "basic";
 
-        console.log("🔍 Executing search with parameters:");
-        console.log(`   📝 Query: ${query}`);
-        console.log(`   🔢 Max Results: ${maxResults}`);
-        console.log(`   📊 Search Depth: ${resolvedDepth}`);
-        console.log(
-            `   ✅ Include Domains: ${includeDomains.length > 0 ? includeDomains.join(", ") : "None"}`,
-        );
-        console.log(
-            `   ❌ Exclude Domains: ${excludeDomains.length > 0 ? excludeDomains.join(", ") : "None"}`,
-        );
-
         try {
             return await fetchTavilySearch(
                 query,

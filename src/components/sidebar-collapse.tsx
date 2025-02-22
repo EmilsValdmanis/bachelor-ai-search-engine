@@ -18,7 +18,7 @@ function SidebarCollapse() {
             setAlwaysOpen(currentMode === "true");
         }
         setIsLoading(false);
-    });
+    }, [setAlwaysOpen]);
 
     const handleAlwaysOpenChange = () => {
         setAlwaysOpen((prev) => {

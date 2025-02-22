@@ -8,6 +8,7 @@ import ChatInputFooter from "./chat-input-footer";
 import { SparklesCore } from "./ui/sparkles";
 import { useTheme } from "next-themes";
 import { motion, AnimatePresence } from "motion/react";
+import ChatInputSuggestions from "./chat-input-suggestions";
 
 interface ChatInputProps {
     handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
@@ -35,6 +36,7 @@ function ChatInput({
 }: ChatInputProps) {
     const [isComposing, setIsComposing] = useState<boolean>(false);
     const [enterDisabled, setEnterDisabled] = useState<boolean>(false);
+    const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
     const [height, setHeight] = useState<number>(0);
     const { resolvedTheme } = useTheme();
 
@@ -96,10 +98,12 @@ function ChatInput({
                         onKeyDown={handleKeyDown}
                         onHeightChange={(height) => setHeight(height)}
                         style={{ height }}
+                        onFocus={() => setShowSuggestions(true)}
+                        onBlur={() => setShowSuggestions(false)}
                     />
                 </div>
                 <AnimatePresence>
-                    {!input && !messages.length && (
+                    {!input && !messages.length && !showSuggestions && (
                         <motion.div
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
@@ -145,6 +149,17 @@ function ChatInput({
                             />
                             <div className="bg-background absolute h-34 w-full [mask-image:radial-gradient(450px_150px_at_top,transparent_20%,white)]" />
                         </motion.div>
+                    )}
+                </AnimatePresence>
+                <AnimatePresence>
+                    {messages.length === 0 && showSuggestions && !input && (
+                        <ChatInputSuggestions
+                            onSuggestionClick={(prompt) => {
+                                handleInputChange({
+                                    target: { value: prompt },
+                                } as React.ChangeEvent<HTMLTextAreaElement>);
+                            }}
+                        />
                     )}
                 </AnimatePresence>
                 <ChatInputFooter input={input} />

@@ -12,7 +12,9 @@ const fontSans = FontSans({
 });
 
 export const metadata: Metadata = {
-    title: "Bachelor AI",
+    title: "Searchly",
+    description:
+        "A search engine that thinks smarter and makes finding stuff fun!",
 };
 
 export const viewport: Viewport = {

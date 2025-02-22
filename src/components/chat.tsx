@@ -83,6 +83,9 @@ function Chat({ id, query }: { id: string; query?: string }) {
         e.preventDefault();
 
         if (!isSignedIn) {
+            handleInputChange({
+                target: { value: "" },
+            } as React.ChangeEvent<HTMLInputElement>);
             return toast.info("Must be signed in first!");
         }
 

@@ -26,7 +26,7 @@ function AppSidebar() {
                 <div className="flex flex-1 flex-col overflow-y-auto p-4">
                     <SidebarLink
                         link={{
-                            label: "Searchy",
+                            label: "Searchly",
                             href: "/",
                             icon: (
                                 <LogoIcon className="stroke-primary size-5 flex-shrink-0 rounded-full" />

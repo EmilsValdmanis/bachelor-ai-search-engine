@@ -9,6 +9,7 @@ import { SparklesCore } from "./ui/sparkles";
 import { useTheme } from "next-themes";
 import { motion, AnimatePresence } from "motion/react";
 import ChatInputSuggestions from "./chat-input-suggestions";
+import ScrollToBottomButton from "./scroll-to-bottom-button";
 
 interface ChatInputProps {
     handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
@@ -21,6 +22,8 @@ interface ChatInputProps {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     append: (message: any) => void;
     query?: string;
+    showScrollButton: boolean;
+    scrollToBottom: () => void;
 }
 
 function ChatInput({
@@ -33,6 +36,8 @@ function ChatInput({
     // stop,
     // append,
     // query,
+    showScrollButton,
+    scrollToBottom,
 }: ChatInputProps) {
     const [isComposing, setIsComposing] = useState<boolean>(false);
     const [enterDisabled, setEnterDisabled] = useState<boolean>(false);
@@ -79,6 +84,10 @@ function ChatInput({
                 >
                     Search easier with AI
                 </h1>
+                <ScrollToBottomButton
+                    scrollToBottom={scrollToBottom}
+                    showScrollButton={showScrollButton}
+                />
                 <div className="bg-muted/60 border-foreground/20 relative flex w-full flex-col gap-2 rounded-3xl border px-2 py-1">
                     <Textarea
                         name="input"

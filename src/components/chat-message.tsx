@@ -9,8 +9,9 @@ import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import { containsLaTeX, processLatex } from "@/lib/utils/latex";
 import CodeBlock from "./ui/code-block";
-
+import RefrenceLink from "./ui/reference-link";
 import "katex/dist/katex.min.css";
+import ToolResult from "./tool-result";
 
 function ChatMessage({
     message,
@@ -29,8 +30,6 @@ function ChatMessage({
         ? processLatex(message.content)
         : message.content;
 
-    // TODO: make a loading visual for when the chat is searching the web.
-
     return (
         <div className="flex gap-2">
             <div className="mt-4 size-6">
@@ -41,31 +40,49 @@ function ChatMessage({
                     )}
                 />
             </div>
-            <Markdown
-                remarkPlugins={[remarkGfm, remarkMath]}
-                rehypePlugins={[
-                    [rehypeExternalLinks, { target: "_blank" }],
-                    [rehypeKatex],
-                ]}
-                className="prose-sm prose-neutral border-border rounded-3xl border p-4"
-                components={{
-                    code({ className, children, ...props }) {
-                        return (
-                            <CodeBlock
-                                language={
-                                    className?.match(/language-(\w+)/)?.[1] ||
-                                    ""
-                                }
-                                value={String(children).replace(/\n$/, "")}
-                                {...props}
-                            />
-                        );
-                    },
-                    // TODO: Make a component for links
-                }}
-            >
-                {messageContent}
-            </Markdown>
+            <div className="prose-sm prose-neutral border-border w-full rounded-3xl border p-4">
+                {(message.parts ?? [])
+                    .filter((part) => part.type === "tool-invocation")
+                    .map(({ toolInvocation }, index) => {
+                        return <ToolResult key={index} tool={toolInvocation} />;
+                    })}
+                <Markdown
+                    remarkPlugins={[remarkGfm, remarkMath]}
+                    rehypePlugins={[
+                        [rehypeExternalLinks, { target: "_blank" }],
+                        [rehypeKatex],
+                    ]}
+                    components={{
+                        code({ className, children, ...props }) {
+                            return (
+                                <CodeBlock
+                                    language={
+                                        className?.match(
+                                            /language-(\w+)/,
+                                        )?.[1] || ""
+                                    }
+                                    value={String(children).replace(/\n$/, "")}
+                                    {...props}
+                                />
+                            );
+                        },
+                        a({ children, ...props }) {
+                            return (
+                                <RefrenceLink {...props}>
+                                    {children}
+                                </RefrenceLink>
+                            );
+                        },
+                    }}
+                >
+                    {messageContent}
+                </Markdown>
+                {!isLoading && (
+                    <div className="text-muted-foreground flex w-full justify-center text-xs">
+                        AI can make mistakes. Verify important info.
+                    </div>
+                )}
+            </div>
         </div>
     );
 }

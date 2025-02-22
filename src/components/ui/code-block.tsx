@@ -143,8 +143,6 @@ const CodeBlock = ({ value: code, language }: CodeBlockProps) => {
             </code>
         );
 
-    // TODO: apply syntax highlighting less often so performance is better (could stream with larger and more infrequent updates maybe)
-
     return (
         <div className="bg-primary/10 overflow-hidden rounded-xl border">
             <div className="bg-primary/20 flex items-center justify-between px-3 py-0.5">

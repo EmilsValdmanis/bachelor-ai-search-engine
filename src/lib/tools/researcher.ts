@@ -11,13 +11,13 @@ const SYSTEM_CONTEXT = `
     1. Use the search tool when necessary to find relevant, up-to-date information.
     2. Analyze all search results carefully to ensure accuracy.
     3. Provide detailed and comprehensive responses based on the search findings.
-    4. Cite sources in the [number](url) format, following the order of search results. If multiple sources are relevant, include all of them, separated by commas.
+    4. Cite sources in the [title](url) format, following the order of search results. If multiple sources are relevant, include all of them, separated by commas.
     5. Only use information that has an accessible URL for citation.
     6. If search results are irrelevant or unhelpful, rely on general knowledge.
     7. Structure responses using markdown, with headings for clarity and readability.
 
     Citation Format:
-    [number](url)
+    [title](url)
 
     Current Date and Time:
     ${new Date().toLocaleString()}

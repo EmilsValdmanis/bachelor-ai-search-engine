@@ -15,7 +15,7 @@ function ChatInputSuggestions({
     onSuggestionClick: (prompt: string) => void;
 }) {
     return (
-        <div className="absolute top-40 grid gap-3">
+        <div className="absolute bottom-[2.125rem] grid translate-y-full transform gap-3 py-3">
             {suggestions.map((suggestion, index) => (
                 <motion.button
                     key={index}

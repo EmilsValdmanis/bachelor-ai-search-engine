@@ -40,13 +40,14 @@ function ChatMessage({
                     )}
                 />
             </div>
-            <div className="prose-sm prose-neutral border-border w-full rounded-3xl border p-4">
+            <div className="border-border w-full rounded-3xl border p-4">
                 {(message.parts ?? [])
                     .filter((part) => part.type === "tool-invocation")
                     .map(({ toolInvocation }, index) => {
                         return <ToolResult key={index} tool={toolInvocation} />;
                     })}
                 <Markdown
+                    className="prose-sm prose-neutral"
                     remarkPlugins={[remarkGfm, remarkMath]}
                     rehypePlugins={[
                         [rehypeExternalLinks, { target: "_blank" }],
@@ -78,7 +79,7 @@ function ChatMessage({
                     {messageContent}
                 </Markdown>
                 {!isLoading && (
-                    <div className="text-muted-foreground flex w-full justify-center text-xs">
+                    <div className="text-muted-foreground mt-2 flex w-full justify-center text-xs">
                         AI can make mistakes. Verify important info.
                     </div>
                 )}

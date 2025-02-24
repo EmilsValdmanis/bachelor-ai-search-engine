@@ -18,7 +18,7 @@ function UserMessage({ message }: { message: Message }) {
                         src={user?.imageUrl}
                         width={48}
                         height={48}
-                        className="mt-4 size-6"
+                        className="mt-4 size-6 rounded-full"
                     />
                 ) : (
                     <Skeleton className="size-6 rounded-full" />

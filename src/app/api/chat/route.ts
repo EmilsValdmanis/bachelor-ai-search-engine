@@ -3,6 +3,8 @@ import { isProviderEnabled } from "@/lib/utils/registry";
 import { createStreamResponse } from "@/lib/stream/create-stream-response";
 import { getAuth } from "@clerk/nextjs/server";
 
+export const maxDuration = 30;
+
 export async function POST(request: NextRequest) {
     try {
         const { id: chatId, messages } = await request.json();

@@ -89,6 +89,8 @@ function Chat({ id, query }: { id: string; query?: string }) {
             return toast.info("Must be signed in first!");
         }
 
+        if (isLoading) return;
+
         setData(undefined);
         handleSubmit(e);
     };

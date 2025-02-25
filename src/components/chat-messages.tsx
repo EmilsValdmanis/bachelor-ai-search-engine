@@ -18,7 +18,7 @@ function ChatMessages({
     if (!messages.length) return null;
 
     return (
-        <div className="relative mx-auto flex w-full flex-col gap-4 px-8 pt-8 pb-[7.25rem]">
+        <div className="relative mx-auto flex w-full flex-col gap-4 px-8 pt-8 pb-[11.5rem]">
             {messages.map((message) => (
                 <Fragment key={message.id}>
                     <ChatMessage

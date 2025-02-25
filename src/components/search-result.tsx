@@ -53,7 +53,7 @@ function SearchResult({ tool }: { tool: ToolInvocation }) {
                     <div className="flex w-full items-center justify-between gap-2">
                         <div className="flex items-center gap-2">
                             <Search className="size-4" />
-                            {tool.result.query}{" "}
+                            {capitalizeFirstLetter(tool.result.query)}{" "}
                             <span className="text-muted-foreground text-xs">
                                 ({tool.result.results.length} results)
                             </span>

@@ -15,6 +15,8 @@ const SYSTEM_CONTEXT = `
     5. Only use information that has an accessible URL for citation.
     6. If search results are irrelevant or unhelpful, rely on general knowledge.
     7. Structure responses using markdown, with headings for clarity and readability.
+    8. Respond in the same language as the prompt.
+    9. Search using the same language as the prompt.
 
     Citation Format:
     [title](url)

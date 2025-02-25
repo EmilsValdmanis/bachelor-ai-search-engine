@@ -10,6 +10,7 @@ import { useTheme } from "next-themes";
 import { motion, AnimatePresence } from "motion/react";
 import ChatInputSuggestions from "./chat-input-suggestions";
 import ScrollToBottomButton from "./scroll-to-bottom-button";
+import ChatInputSettings from "./chat-input-settings";
 
 interface ChatInputProps {
     handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
@@ -32,8 +33,8 @@ function ChatInput({
     input,
     messages,
     // setMessages,
-    // isLoading,
-    // stop,
+    isLoading,
+    stop,
     // append,
     // query,
     showScrollButton,
@@ -88,7 +89,7 @@ function ChatInput({
                     scrollToBottom={scrollToBottom}
                     showScrollButton={showScrollButton}
                 />
-                <div className="bg-muted/60 border-foreground/20 relative flex w-full flex-col gap-2 rounded-3xl border px-2 py-1">
+                <div className="bg-muted/60 border-foreground/20 relative flex w-full flex-col gap-2 rounded-3xl border p-2">
                     <Textarea
                         name="input"
                         maxRows={6}
@@ -109,6 +110,11 @@ function ChatInput({
                         style={{ height }}
                         onFocus={() => setShowSuggestions(true)}
                         onBlur={() => setShowSuggestions(false)}
+                    />
+                    <ChatInputSettings
+                        isLoading={isLoading}
+                        input={input}
+                        stop={stop}
                     />
                 </div>
                 <AnimatePresence>

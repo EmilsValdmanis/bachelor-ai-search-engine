@@ -12,7 +12,7 @@ export const createStreamResponse = (config: StreamConfig) => {
     return createDataStreamResponse({
         execute: async (dataStream: DataStreamWriter) => {
             try {
-                const { model, messages } = config;
+                const { model, messages, isSearchToolEnabled } = config;
 
                 const coreMessages = convertToCoreMessages(messages);
                 const truncatedCoreMesages = truncateCoreMessages({
@@ -23,6 +23,7 @@ export const createStreamResponse = (config: StreamConfig) => {
                 const researcher = createResearcher({
                     messages: truncatedCoreMesages,
                     model,
+                    isSearchToolEnabled,
                 });
 
                 const result = streamText({

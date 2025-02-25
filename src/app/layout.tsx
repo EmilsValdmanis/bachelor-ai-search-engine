@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { Toaster } from "@/components/ui/sonner";
 import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 const fontSans = FontSans({
     subsets: ["latin"],

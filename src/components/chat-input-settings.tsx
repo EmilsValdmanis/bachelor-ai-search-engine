@@ -2,6 +2,7 @@ import { motion } from "motion/react";
 import { ArrowUp, Square } from "lucide-react";
 import { buttonVariants } from "./ui/button";
 import { cn } from "@/lib/utils";
+import ChatSearchToggle from "./chat-search-toggle";
 
 interface ChatInputSettingsProps {
     isLoading: boolean;
@@ -14,8 +15,7 @@ function ChatInputSettings({ isLoading, input, stop }: ChatInputSettingsProps) {
 
     return (
         <div className="flex items-center justify-between p-1">
-            <div />
-            {/* TODO: Add search toggle button here */}
+            <ChatSearchToggle />
             <motion.button
                 initial={{ opacity: 0 }}
                 animate={{ opacity: isDisabled ? 0.5 : 1 }}

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { isProviderEnabled } from "@/lib/utils/registry";
 import { createStreamResponse } from "@/lib/stream/create-stream-response";
 import { getAuth } from "@clerk/nextjs/server";
+import { cookies } from "next/headers";
 
 export const maxDuration = 30;
 
@@ -25,10 +26,15 @@ export async function POST(request: NextRequest) {
                 message: `Current provider: '${provider}', is not enabled.`,
             });
 
+        const cookieStore = await cookies();
+        const isSearchToolEnabled =
+            cookieStore.get("is-search-tool-enabled")?.value === "true";
+
         return createStreamResponse({
             chatId,
             model,
             messages,
+            isSearchToolEnabled,
         });
     } catch (error: unknown) {
         console.error("API route error:", error);

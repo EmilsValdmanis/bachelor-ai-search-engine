@@ -30,9 +30,11 @@ type ResearcherResult = Parameters<typeof streamText>[0];
 export function createResearcher({
     messages,
     model,
+    isSearchToolEnabled,
 }: {
     messages: CoreMessage[];
     model: string;
+    isSearchToolEnabled: boolean;
 }): ResearcherResult {
     try {
         return {
@@ -44,7 +46,7 @@ export function createResearcher({
                 search: searchTool,
             },
             maxSteps: 5,
-            experimental_activeTools: ["search"],
+            experimental_activeTools: isSearchToolEnabled ? ["search"] : [],
         };
     } catch (error) {
         console.error("Error in researcher:", error);

@@ -4,4 +4,5 @@ export interface StreamConfig {
     chatId: string;
     model: string;
     messages: Message[];
+    isSearchToolEnabled: boolean;
 }

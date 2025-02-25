@@ -1,7 +1,7 @@
 # To-Do List (Prio: High => Low)
 
 - [ ] Set up Redis for storing the chat threads for a logged in user
-- [ ] Allow to enable/disable search
+- [x] Allow to enable/disable search
 - [x] Allow to stop an answer being generated
 - [x] Don't allow resubmitting when generating
 - [ ] Generate related questions after a question is asked

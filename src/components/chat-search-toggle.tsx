@@ -19,9 +19,13 @@ function ChatSearchToggle() {
 
     useEffect(() => {
         const savedMode = getCookie("is-search-tool-enabled");
-        if (savedMode !== null) setIsSearchEnabled(savedMode === "true");
+        if (savedMode !== null) {
+            setIsSearchEnabled(savedMode === "true");
+        } else {
+            setCookie("is-search-tool-enabled", isSearchEnabled.toString());
+        }
         setIsLoading(false);
-    }, []);
+    }, [isSearchEnabled]);
 
     const handleSearchToggle = (pressed: boolean) => {
         setIsSearchEnabled(pressed);
@@ -40,7 +44,7 @@ function ChatSearchToggle() {
                                 pressed={isSearchEnabled}
                                 onPressedChange={handleSearchToggle}
                                 variant="outline"
-                                className="rounded-3xl transition-all data-[state=on]:border-indigo-500 data-[state=on]:bg-indigo-500/20 data-[state=on]:text-indigo-500"
+                                className="rounded-3xl transition-all data-[state=on]:border-indigo-500 data-[state=on]:bg-indigo-500/20 data-[state=on]:text-indigo-500 hover:data-[state=on]:border-indigo-400 hover:data-[state=on]:bg-indigo-500/30"
                             >
                                 <Globe />
                                 <span className="text-xs">Search</span>

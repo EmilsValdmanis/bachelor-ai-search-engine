@@ -12,16 +12,31 @@ import CodeBlock from "./ui/code-block";
 import RefrenceLink from "./ui/reference-link";
 import "katex/dist/katex.min.css";
 import ToolResult from "./tool-result";
+import { useMemo } from "react";
+import RelatedQuestions from "./related-questions";
+
+interface ChatMessageProps {
+    message: Message;
+    isLoading: boolean;
+    isLast: boolean;
+    onQuerySelect: (query: string) => void;
+}
 
 function ChatMessage({
     message,
     isLoading,
     isLast,
-}: {
-    message: Message;
-    isLoading: boolean;
-    isLast: boolean;
-}) {
+    onQuerySelect,
+}: ChatMessageProps) {
+    const relatedQuestions = useMemo(
+        () =>
+            message.annotations?.filter(
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                (annotation: any) => annotation?.type === "related-questions",
+            ),
+        [message.annotations],
+    );
+
     if (message.role === "user") return <UserMessage message={message} />;
 
     const containsLatex = containsLaTeX(message.content);
@@ -51,6 +66,7 @@ function ChatMessage({
                     remarkPlugins={[remarkGfm, remarkMath]}
                     rehypePlugins={[
                         [rehypeExternalLinks, { target: "_blank" }],
+                        // TODO: Only add katex if message contains Latex
                         [rehypeKatex],
                     ]}
                     components={{
@@ -78,10 +94,18 @@ function ChatMessage({
                 >
                     {messageContent}
                 </Markdown>
+                {/* TODO: show this after answer has been generated not after the related questions have been generated */}
                 {!isLoading && (
-                    <div className="text-muted-foreground mt-2 flex w-full justify-center text-xs">
+                    // TODO: add copy and regenerate buttons
+                    <div className="text-muted-foreground mt-2 flex w-full justify-center text-xs md:justify-end">
                         AI can make mistakes. Verify important info.
                     </div>
+                )}
+                {relatedQuestions && relatedQuestions.length > 0 && (
+                    <RelatedQuestions
+                        relatedQuestions={relatedQuestions}
+                        onQuerySelect={onQuerySelect}
+                    />
                 )}
             </div>
         </div>

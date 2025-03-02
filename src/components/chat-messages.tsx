@@ -1,19 +1,17 @@
-import { Message, JSONValue } from "ai";
+import { Message } from "ai";
 import { Fragment } from "react";
 import ChatMessage from "./chat-message";
 
 interface ChatMessagesProps {
     messages: Message[];
-    data: JSONValue[] | undefined;
     isLoading: boolean;
-    chatId?: string;
+    onQuerySelect: (query: string) => void;
 }
 
 function ChatMessages({
     messages,
-    // data,
     isLoading,
-    // chatId,
+    onQuerySelect,
 }: ChatMessagesProps) {
     if (!messages.length) return null;
 
@@ -25,6 +23,7 @@ function ChatMessages({
                         message={message}
                         isLoading={isLoading}
                         isLast={message.id === messages[messages.length - 1].id}
+                        onQuerySelect={onQuerySelect}
                     />
                 </Fragment>
             ))}

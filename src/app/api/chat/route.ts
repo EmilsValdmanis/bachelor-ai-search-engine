@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { isProviderEnabled } from "@/lib/utils/registry";
 import { createStreamResponse } from "@/lib/stream/create-stream-response";
-import { getAuth } from "@clerk/nextjs/server";
+import { auth } from "@clerk/nextjs/server";
 import { cookies } from "next/headers";
 
 export const maxDuration = 30;
@@ -9,7 +9,7 @@ export const maxDuration = 30;
 export async function POST(request: NextRequest) {
     try {
         const { id: chatId, messages } = await request.json();
-        const { userId } = await getAuth(request);
+        const { userId } = await auth();
 
         if (!userId)
             return NextResponse.json({
@@ -35,6 +35,7 @@ export async function POST(request: NextRequest) {
             model,
             messages,
             isSearchToolEnabled,
+            userId,
         });
     } catch (error: unknown) {
         console.error("API route error:", error);

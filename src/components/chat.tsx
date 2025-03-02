@@ -25,18 +25,24 @@ function Chat({ id, query }: { id: string; query?: string }) {
         messages,
         setMessages,
         isLoading,
-        data,
         setData,
         stop,
         append,
     } = useChat({
         initialMessages: [],
-        id: "1",
+        id,
         onError: (error) => {
             console.error("Error in chat:", error);
             toast.error(`Error in chat: ${error.message}`);
         },
     });
+
+    const onQuerySelect = (query: string) => {
+        append({
+            role: "user",
+            content: query,
+        });
+    };
 
     const chatRef = (node: HTMLDivElement | null) => {
         if (node) {
@@ -105,9 +111,8 @@ function Chat({ id, query }: { id: string; query?: string }) {
         >
             <ChatMessages
                 messages={messages}
-                data={data}
                 isLoading={isLoading}
-                chatId={id}
+                onQuerySelect={onQuerySelect}
             />
             <div ref={messagesEndRef} />
             <ChatInput

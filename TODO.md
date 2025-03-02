@@ -4,7 +4,7 @@
 - [x] Allow to enable/disable search
 - [x] Allow to stop an answer being generated
 - [x] Don't allow resubmitting when generating
-- [ ] Generate related questions after a question is asked
+- [x] Generate related questions after a question is asked
 - [ ] Implement language detection and proposed search queries
 - [x] Display the web search results (images/links)
 - [ ] Show all user's chat threads on the sidebar

@@ -27,18 +27,16 @@ function SearchResult({ tool }: { tool: ToolInvocation }) {
                     </AccordionTrigger>
                     <AccordionContent className="flex flex-col gap-2">
                         <div className="flex gap-2">
-                            <Skeleton className="h-32 w-[calc(20%-0.4rem)]" />
-                            <Skeleton className="h-32 w-[calc(20%-0.4rem)]" />
-                            <Skeleton className="h-32 w-[calc(20%-0.4rem)]" />
-                            <Skeleton className="h-32 w-[calc(20%-0.4rem)]" />
-                            <Skeleton className="h-32 w-[calc(20%-0.4rem)]" />
+                            <Skeleton className="h-32 w-[calc(50%-0.4rem)] md:w-[calc(25%-0.4rem)]" />
+                            <Skeleton className="h-32 w-[calc(50%-0.4rem)] md:w-[calc(25%-0.4rem)]" />
+                            <Skeleton className="h-32 w-[calc(50%-0.4rem)] md:w-[calc(25%-0.4rem)]" />
+                            <Skeleton className="h-32 w-[calc(50%-0.4rem)] md:w-[calc(25%-0.4rem)]" />
                         </div>
                         <div className="flex gap-2">
-                            <Skeleton className="h-16 w-[calc(20%-0.4rem)]" />
-                            <Skeleton className="h-16 w-[calc(20%-0.4rem)]" />
-                            <Skeleton className="h-16 w-[calc(20%-0.4rem)]" />
-                            <Skeleton className="h-16 w-[calc(20%-0.4rem)]" />
-                            <Skeleton className="h-16 w-[calc(20%-0.4rem)]" />
+                            <Skeleton className="h-16 w-[calc(50%-0.4rem)] md:w-[calc(25%-0.4rem)]" />
+                            <Skeleton className="h-16 w-[calc(50%-0.4rem)] md:w-[calc(25%-0.4rem)]" />
+                            <Skeleton className="h-16 w-[calc(50%-0.4rem)] md:w-[calc(25%-0.4rem)]" />
+                            <Skeleton className="h-16 w-[calc(50%-0.4rem)] md:w-[calc(25%-0.4rem)]" />
                         </div>
                     </AccordionContent>
                 </AccordionItem>
@@ -46,21 +44,26 @@ function SearchResult({ tool }: { tool: ToolInvocation }) {
         );
     }
 
+    // TODO: fix the mobile issues
     return (
         <Accordion type="single" defaultValue="sources" collapsible>
             <AccordionItem value="sources">
                 <AccordionTrigger className="pt-0 text-base">
                     <div className="flex w-full items-center justify-between gap-2">
-                        <div className="flex items-center gap-2">
-                            <Search className="size-4" />
-                            {capitalizeFirstLetter(tool.result.query)}{" "}
-                            <span className="text-muted-foreground text-xs">
-                                ({tool.result.results.length} results)
-                            </span>
+                        <div className="flex w-full flex-col items-start gap-1 text-nowrap md:flex-row md:items-center md:gap-2">
+                            <div className="flex items-center gap-2">
+                                <Search className="size-4 min-h-4 min-w-4" />
+                                {capitalizeFirstLetter(tool.result.query)}{" "}
+                            </div>
+                            <div className="flex w-full grow items-center justify-between gap-2">
+                                <span className="text-muted-foreground text-xs">
+                                    ({tool.result.results.length} results)
+                                </span>
+                                <span className="text-muted-foreground text-xs">
+                                    {tool.result.response_time}s
+                                </span>
+                            </div>
                         </div>
-                        <span className="text-muted-foreground text-xs">
-                            {tool.result.response_time}s
-                        </span>
                     </div>
                 </AccordionTrigger>
                 <AccordionContent className="flex flex-col gap-2">

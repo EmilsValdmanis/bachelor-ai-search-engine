@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useState } from "react";
-import PlaceholderImage from "../../public/placeholder-image";
+import Link from "next/link";
 
 interface ResultImage {
     url: string;
@@ -14,7 +14,7 @@ function SearchImagesList({ images }: { images: ResultImage[] }) {
 
     const displayedImages = images.slice(0, 5);
 
-    // TODO: make this a carousel/lightbox without scroll until then just show 5 images
+    // TODO: make this a carousel/lightbox without scroll until then just show 4 images
     return (
         <div className="flex gap-2">
             {displayedImages.map(({ url, description }, index: number) => (
@@ -35,20 +35,20 @@ function ImageWithFallback({
     url: string;
     description: string;
 }) {
-    const [hasError, setHasError] = useState(false);
+    const [isVisble, setIsVisible] = useState(true);
+
+    if (!isVisble) return null;
 
     return (
-        <div className="bg-muted h-32 w-[calc(20%-0.4rem)] flex-shrink-0 overflow-hidden rounded-xl shadow-md">
-            {hasError ? (
-                <PlaceholderImage />
-            ) : (
+        <div className="overflow bg-background h-32 w-[calc(50%-0.4rem)] flex-shrink-0 shadow-md transition-transform hover:scale-95 hover:rotate-y-1 hover:rotate-z-1 hover:transform-3d md:w-[calc(25%-0.4rem)]">
+            <Link href={url} target="_blank">
                 <img
                     alt={description}
                     src={url}
-                    className="h-full w-full object-cover"
-                    onError={() => setHasError(true)}
+                    className="h-full w-full rounded-xl object-cover"
+                    onError={() => setIsVisible(false)}
                 />
-            )}
+            </Link>
         </div>
     );
 }

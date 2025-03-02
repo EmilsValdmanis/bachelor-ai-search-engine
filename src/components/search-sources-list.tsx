@@ -1,7 +1,7 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
-import { LinkPreview } from "./ui/link-preview";
 
 interface ResultSource {
     title: string;
@@ -19,8 +19,8 @@ function SearchSourcesList({ results }: { results: ResultSource[] }) {
     return (
         <div className="flex flex-wrap gap-2">
             {displayedResults.map((result, index) => (
-                <LinkPreview
-                    url={result.url}
+                <Link
+                    href={result.url}
                     key={index}
                     target="_blank"
                     className="bg-muted hover:bg-muted/75 w-[calc(50%-0.4rem)] space-y-1 rounded-xl p-2 text-xs transition-colors md:w-[calc(25%-0.4rem)]"
@@ -31,7 +31,7 @@ function SearchSourcesList({ results }: { results: ResultSource[] }) {
                     <p className="text-muted-foreground line-clamp-1">
                         {result.url}
                     </p>
-                </LinkPreview>
+                </Link>
             ))}
             {shouldShowButton && !isExpanded && (
                 <div
